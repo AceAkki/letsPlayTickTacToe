@@ -1,0 +1,49 @@
+:root {
+  --clr-primary:#BE5060;
+  --clr-secondary:#47939C;
+  --clr-highlight:#99DFED;
+  --clr-dark:#273341;
+
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  /* background: url("./assets/bg-0.png") no-repeat center / cover fixed; */
+  background: var(--clr-dark);
+}
+
+body::before{
+  content: "";
+  background: url("./assets/bg-1.webp") no-repeat center / cover fixed;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  filter: blur(20px);
+  height: 100vh;
+  width: 100vw;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: inherit;
+  background-color:var(--clr-highlight);
+  cursor: pointer;
+  transition: border-color 0.9s ease-in-out;
+}
+button:hover {
+  border-color: var(--clr-dark);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
