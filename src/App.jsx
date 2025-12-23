@@ -120,6 +120,7 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (getWinner() !== null || gameCompletion()) return
     console.log("ran useEffect", spaces);
     setUsers((oldUsers) =>
       oldUsers.map((user) => {
