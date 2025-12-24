@@ -19,7 +19,7 @@ body {
 
 body::before{
   content: "";
-  background: url("./assets/bg-1.webp") no-repeat center / cover fixed;
+  background: var(--clr-dark) url("./assets/bg-1.webp") no-repeat center / cover fixed;
   position: absolute;
   top: 0;
   right: 0;

@@ -14,13 +14,23 @@ export default function Section(props) {
     <section>
       <div className="game-wrap">{props.elemArr}</div>
       <div className="users-wrap">
-        <p style={userNameStyle(0)} className="player-name">
-          player "X" : {props.userData[0].username}
-        </p>
+        <div style={userNameStyle(0)} className="player-name">
+          player "X" : {props.userData[0].username} 
+          <p>
+             <span>Wins Count: {props.userData[0].wins}</span> &nbsp;
+          <span>Lost Count: {props.userData[0].loss}</span>
+          </p>
+         
+        </div>
         <br />
-        <p style={userNameStyle(1)} className="player-name">
-          player "O" : {props.userData[1].username}
-        </p>
+        <div style={userNameStyle(1)} className="player-name">
+          player "O" : {props.userData[1].username} 
+          <p>
+           <span>Wins Count: {props.userData[1].wins}</span> &nbsp;
+          <span>Lost Count: {props.userData[1].loss}</span>
+
+          </p>
+        </div>
       </div>
       {props.getWinnerName() !== null || props.completeGame() ? (
         <div className="status-wrap">

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { nanoid } from "nanoid";
+import { useWindowSize } from 'react-use'
+import Confetti from 'react-confetti'
 
 import "./App.css";
 import Form from "../components/Form";
@@ -9,6 +11,7 @@ import Square from "../components/Square";
 export default function App() {
   let [spaces, setSpaces] = useState(createSpace());
   let [users, setUsers] = useState([]);
+  const { width, height } = useWindowSize()
 
   function createSpace() {
     return Array(9)
@@ -37,11 +40,15 @@ export default function App() {
         username: userX,
         type: "X",
         isTurn: true,
+        wins:0,
+        loss:0,
       },
       {
         username: userO,
         type: "O",
         isTurn: false,
+        wins:0,
+        loss:0,
       },
     ]);
   }
@@ -120,8 +127,13 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (getWinner() !== null) {
+      setUsers(oldUsers => oldUsers.map(user => {
+        return (user.type === getWinner()) ? {...user, wins:user.wins + 1} : {...user, loss:user.loss + 1}
+      }))
+    }
     if (getWinner() !== null || gameCompletion()) return
-    console.log("ran useEffect", spaces);
+   // console.log("ran useEffect", spaces);
     setUsers((oldUsers) =>
       oldUsers.map((user) => {
         return user.isTurn
@@ -133,6 +145,10 @@ export default function App() {
 
   return (
     <>
+      {getWinner() !== null ? <Confetti
+      width={width}
+      height={height}
+    /> : null}
     <main>
       <h1>letsPlay : TicTacToe</h1>
       {users.length <= 0 ? (
