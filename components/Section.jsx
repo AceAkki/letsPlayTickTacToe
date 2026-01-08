@@ -36,7 +36,7 @@ export default function Section(props) {
         <div className="status-wrap">
           <p className="status">
             {props.getWinnerName() !== null
-              ? `${props.getWinnerName()} has won this game !`
+              ? `${props.getWinnerName().winner} has won this game !`
               : `Game is draw`}
           </p>
           <button onClick={props.newGame}> New Game</button>

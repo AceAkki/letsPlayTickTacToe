@@ -17,7 +17,7 @@ export default function App() {
     return Array(9)
       .fill(0)
       .map((num, i) => {
-        return { type: " ", id: `${i}` };
+        return { type: " ", id: `${i}`, won:false };
       });
   }
 
@@ -75,7 +75,7 @@ export default function App() {
   }
 
   let elemArr = spaces.map((el) => (
-    <Square key={el.id} id={el.id} onClick={playTurn} type={el.type} />
+    <Square key={el.id} id={el.id} onClick={playTurn} type={el.type} wonClass={el.won} />
   ));
 
   function gameCompletion() {
@@ -124,7 +124,7 @@ export default function App() {
     for (let [a, b, c] of winConditions) {
       if (spaces[a].type !== " " && 
       spaces[a].type === spaces[b].type && spaces[a].type === spaces[c].type) {
-        return spaces[a].type
+        return { winner:spaces[a].type, winnerPattern:[a, b, c] }
       }
     }
     return null
@@ -143,11 +143,19 @@ export default function App() {
   // }
 
   useEffect(() => {
+    const winnerInfo = getWinner()
    
-    if (getWinner() !== null) {
-      setUsers(oldUsers => oldUsers.map(user => {
-        return (user.type === getWinner()) ? {...user, wins:user.wins + 1} : {...user, loss:user.loss + 1}
-      }))
+    if (winnerInfo) {
+      const {winner, winnerPattern} = getWinner();
+      console.log(getWinner())
+      if (!spaces[winnerPattern[0]].won) {
+        setSpaces(prev => prev.map((space, i) => 
+          winnerPattern.includes(i) ? { ...space, won: true } : space
+        ));
+        setUsers(oldUsers => oldUsers.map(user => {
+           return (user.type === winner) ? {...user, wins:user.wins + 1} : {...user, loss:user.loss + 1}
+         }))
+      } 
     }
     // if (getWinner() !== null || gameCompletion()) return
    // console.log("ran useEffect", spaces);

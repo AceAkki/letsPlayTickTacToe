@@ -75,6 +75,18 @@ form input {
   color: var(--clr-secondary);
 }
 
+.square.wonClass {
+  background-color: var(--clr-dark);
+}
+
+.square.wonClass.X {
+  border-color: var(--clr-primary);
+}
+
+.square.wonClass.O {
+  border-color: var(--clr-secondary);
+}
+
 .users-wrap, .status-wrap {
   background: #fff;
   backdrop-filter: blur(5px);
