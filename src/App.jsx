@@ -64,11 +64,18 @@ export default function App() {
             : space;
         })
       );
+      setUsers((oldUsers) =>
+        oldUsers.map((user) => {
+          return user.isTurn
+            ? { ...user, isTurn: !user.isTurn }
+            : { ...user, isTurn: true };
+        })
+      );
     }
   }
 
   let elemArr = spaces.map((el) => (
-    <Square key={nanoid()} id={el.id} onClick={playTurn} type={el.type} />
+    <Square key={el.id} id={el.id} onClick={playTurn} type={el.type} />
   ));
 
   function gameCompletion() {
@@ -87,60 +94,64 @@ export default function App() {
       [2, 5, 8],
     ];
 
-    let filled = spaces.filter((space) => {
-      if (space.type !== " ") {
-        return space;
+    // let filled = spaces.filter((space) => {
+    //   if (space.type !== " ") {
+    //     return space;
+    //   }
+    // });
+
+    // let xList = filled
+    //   .filter((space) => {
+    //     if (space.type === "X") {
+    //       return space;
+    //     }
+    //   })
+    //   .map((elm) => parseInt(elm.id));
+    // let oList = filled
+    //   .filter((space) => {
+    //     if (space.type === "O") {
+    //       return space;
+    //     }
+    //   })
+    //   .map((elm) => parseInt(elm.id));
+
+    // // console.log(filled, "list", xList, oList);
+
+    // let gameWinner = checkWinner(winConditions, xList, oList);
+    // return gameWinner !== undefined ? gameWinner : null;
+   
+
+    for (let [a, b, c] of winConditions) {
+      if (spaces[a].type !== " " && 
+      spaces[a].type === spaces[b].type && spaces[a].type === spaces[c].type) {
+        return spaces[a].type
       }
-    });
-
-    let xList = filled
-      .filter((space) => {
-        if (space.type === "X") {
-          return space;
-        }
-      })
-      .map((elm) => parseInt(elm.id));
-    let oList = filled
-      .filter((space) => {
-        if (space.type === "O") {
-          return space;
-        }
-      })
-      .map((elm) => parseInt(elm.id));
-
-    // console.log(filled, "list", xList, oList);
-
-    let gameWinner = checkWinner(winConditions, xList, oList);
-    return gameWinner !== undefined ? gameWinner : null;
-  }
-
-  function checkWinner(checker, xList, oList) {
-    let winner;
-    if (checker.find((arr) => arr.every((elm, index) => xList.includes(elm)))) {
-      winner = "X";
-    } else if (
-      checker.find((arr) => arr.every((elm, index) => oList.includes(elm)))
-    ) {
-      winner = "O";
     }
-    return winner;
+    return null
   }
+
+  // function checkWinner(checker, xList, oList) {
+  //   let winner;
+  //   if (checker.find((arr) => arr.every((elm, index) => xList.includes(elm)))) {
+  //     winner = "X";
+  //   } else if (
+  //     checker.find((arr) => arr.every((elm, index) => oList.includes(elm)))
+  //   ) {
+  //     winner = "O";
+  //   }
+  //   return winner;
+  // }
 
   useEffect(() => {
+   
     if (getWinner() !== null) {
       setUsers(oldUsers => oldUsers.map(user => {
         return (user.type === getWinner()) ? {...user, wins:user.wins + 1} : {...user, loss:user.loss + 1}
       }))
     }
-    if (getWinner() !== null || gameCompletion()) return
+    // if (getWinner() !== null || gameCompletion()) return
    // console.log("ran useEffect", spaces);
-    setUsers((oldUsers) =>
-      oldUsers.map((user) => {
-        return user.isTurn
-          ? { ...user, isTurn: !user.isTurn }
-          : { ...user, isTurn: true };
-      })
-    );
+    
   }, [spaces]);
 
   return (
