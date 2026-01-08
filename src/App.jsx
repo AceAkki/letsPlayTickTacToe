@@ -12,6 +12,7 @@ export default function App() {
   let [spaces, setSpaces] = useState(createSpace());
   let [users, setUsers] = useState([]);
   const { width, height } = useWindowSize()
+  const winnerInfo = getWinner()
 
   function createSpace() {
     return Array(9)
@@ -53,13 +54,13 @@ export default function App() {
     ]);
   }
 
-  function playTurn(event) {
+  function playTurn(id) {
     let currentUser = users.find((obj) => obj.isTurn);
     // console.log(currentUser);
-    if (spaces[event.target.id].type === " " && getWinner() === null) {
+    if (spaces[id].type === " " && winnerInfo === null) {
       setSpaces((oldspaces) =>
         oldspaces.map((space) => {
-          return event.target.id === space.id && space.type === " "
+          return id === space.id && space.type === " "
             ? { ...space, type: currentUser.type }
             : space;
         })
@@ -75,7 +76,7 @@ export default function App() {
   }
 
   let elemArr = spaces.map((el) => (
-    <Square key={el.id} id={el.id} onClick={playTurn} type={el.type} wonClass={el.won} />
+    <Square key={el.id} id={el.id} onClick={() => playTurn(el.id)} type={el.type} wonClass={el.won} />
   ));
 
   function gameCompletion() {
@@ -93,6 +94,8 @@ export default function App() {
       [1, 4, 7],
       [2, 5, 8],
     ];
+
+    // OG logic, refractored it using the tutorial given logic
 
     // let filled = spaces.filter((space) => {
     //   if (space.type !== " ") {
@@ -124,6 +127,7 @@ export default function App() {
     for (let [a, b, c] of winConditions) {
       if (spaces[a].type !== " " && 
       spaces[a].type === spaces[b].type && spaces[a].type === spaces[c].type) {
+        // to avoid re-rendering issue returning winnerPattern
         return { winner:spaces[a].type, winnerPattern:[a, b, c] }
       }
     }
@@ -143,11 +147,9 @@ export default function App() {
   // }
 
   useEffect(() => {
-    const winnerInfo = getWinner()
    
     if (winnerInfo) {
-      const {winner, winnerPattern} = getWinner();
-      console.log(getWinner())
+      const {winner, winnerPattern} = winnerInfo;
       if (!spaces[winnerPattern[0]].won) {
         setSpaces(prev => prev.map((space, i) => 
           winnerPattern.includes(i) ? { ...space, won: true } : space
@@ -164,7 +166,7 @@ export default function App() {
 
   return (
     <>
-      {getWinner() !== null ? <Confetti
+      {winnerInfo !== null ? <Confetti
       width={width}
       height={height}
     /> : null}
