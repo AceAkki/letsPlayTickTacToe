@@ -27,6 +27,11 @@ export default function App() {
     //console.log(getWinner());
   }
 
+  function resetGame(){
+    setUsers([]);
+    setSpaces(createSpace());
+  }
+
   function getUsers(formData) {
     let { userX, userO } = Object.fromEntries(formData.entries());
     // setUsers((oldUsers) =>
@@ -180,6 +185,7 @@ export default function App() {
           userData={users}
           getWinnerName={getWinner}
           newGame={newGame}
+          resetGame={resetGame}
           completeGame={gameCompletion}
         />
       )}

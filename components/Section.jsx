@@ -39,7 +39,12 @@ export default function Section(props) {
               ? `${props.getWinnerName().winner} has won this game !`
               : `Game is draw`}
           </p>
+          <div className="btn-wrap">
           <button onClick={props.newGame}> New Game</button>
+          <button onClick={props.resetGame}> Reset Game</button>
+
+          </div>
+
         </div>
       ) : null}
     </section>

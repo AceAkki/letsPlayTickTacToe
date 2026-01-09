@@ -103,3 +103,8 @@ form input {
   padding: 0.5rem 1rem;
   border-radius: 10px;
 }
+
+.btn-wrap {
+  display: flex;
+  gap: 1rem;
+}
